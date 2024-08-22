@@ -135,15 +135,15 @@ const columns = [
 const getStatusText = (status: number) => {
   switch (status) {
     case 0:
-      return "待判题(Pending)";
+      return "Pending";
     case 1:
-      return "判题中(Judging)";
+      return "Judging";
     case 2:
-      return "成功 (Accepted)";
+      return "Accepted";
     case 3:
-      return "失败 (Rejected)";
+      return "Rejected";
     default:
-      return "未知状态(Unknown)";
+      return "Unknown";
   }
 };
 
