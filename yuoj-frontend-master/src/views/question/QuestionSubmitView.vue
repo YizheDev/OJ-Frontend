@@ -33,9 +33,10 @@
       }"
       @page-change="onPageChange"
     >
-      <template #judgeInfo="{ record }">
+      <template #memory="{ record }">
         {{ (record.judgeInfo.memory / (1024 * 1024)).toFixed(2) }} MiB
       </template>
+      <template #time="{ record }"> {{ record.judgeInfo.time }} MS </template>
       <template #status="{ record }">
         {{ getStatusText(record.status) }}
       </template>
@@ -106,8 +107,12 @@ const columns = [
     dataIndex: "language",
   },
   {
-    title: "判题信息",
-    slotName: "judgeInfo",
+    title: "占用内存",
+    slotName: "memory",
+  },
+  {
+    title: "时间",
+    slotName: "time",
   },
   {
     title: "判题状态",
