@@ -144,6 +144,7 @@ const router = useRouter();
  * @param question
  */
 const toQuestionPage = (question: Question) => {
+  console.log("question.id", question.id);
   router.push({
     path: `/view/question/${question.id}`,
   });

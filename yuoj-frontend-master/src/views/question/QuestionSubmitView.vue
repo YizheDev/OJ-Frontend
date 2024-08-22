@@ -34,7 +34,10 @@
       @page-change="onPageChange"
     >
       <template #judgeInfo="{ record }">
-        {{ JSON.stringify(record.judgeInfo) }}
+        {{ (record.judgeInfo.memory / (1024 * 1024)).toFixed(2) }} MiB
+      </template>
+      <template #status="{ record }">
+        {{ getStatusText(record.status) }}
       </template>
       <template #createTime="{ record }">
         {{ moment(record.createTime).format("YYYY-MM-DD") }}
@@ -80,14 +83,12 @@ const loadData = async () => {
     message.error("加载失败，" + res.message);
   }
 };
-
 /**
  * 监听 searchParams 变量，改变时触发页面的重新加载
  */
 watchEffect(() => {
   loadData();
 });
-
 /**
  * 页面加载时，请求数据
  */
@@ -110,7 +111,7 @@ const columns = [
   },
   {
     title: "判题状态",
-    dataIndex: "status",
+    slotName: "status",
   },
   {
     title: "题目 id",
@@ -125,6 +126,21 @@ const columns = [
     slotName: "createTime",
   },
 ];
+
+const getStatusText = (status: number) => {
+  switch (status) {
+    case 0:
+      return "待判题(Pending)";
+    case 1:
+      return "判题中(Judging)";
+    case 2:
+      return "成功 (Accepted)";
+    case 3:
+      return "失败 (Rejected)";
+    default:
+      return "未知状态(Unknown)";
+  }
+};
 
 const onPageChange = (page: number) => {
   searchParams.value = {
@@ -149,14 +165,12 @@ const toQuestionPage = (question: Question) => {
  * 确认搜索，重新加载数据
  */
 const doSubmit = () => {
-  // 这里需要重置搜索页号
   searchParams.value = {
     ...searchParams.value,
     current: 1,
   };
 };
 </script>
-
 <style scoped>
 #questionSubmitView {
   max-width: 1280px;

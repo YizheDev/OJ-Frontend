@@ -12,7 +12,7 @@
           disabled
         >
           <div class="title-bar">
-            <img class="logo" src="../assets/oj-logo.svg" />
+            <img class="logo" src="@/assets/oj-logo.svg" />
             <div class="title">YZ OJ</div>
           </div>
         </a-menu-item>
@@ -30,7 +30,7 @@
           @mouseleave="hover = false"
           :class="{ hoverEffect: hover }"
         >
-          {{ store.state.user?.loginUser?.userName ?? "未登录" }}
+          {{ userNameDisplay }}
         </a-avatar>
       </div>
     </a-col>
@@ -38,9 +38,8 @@
 </template>
 
 <script setup lang="ts">
-import { routes } from "../router/routes";
-import { useRoute, useRouter } from "vue-router";
-import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
+import { computed, ref, watch } from "vue";
 import { useStore } from "vuex";
 import checkAccess from "@/access/checkAccess";
 import ACCESS_ENUM from "@/access/accessEnum";
@@ -49,19 +48,29 @@ const hover = ref(false);
 const router = useRouter();
 const store = useStore();
 
+// 用户名显示逻辑
+const userNameDisplay = computed(() => {
+  const userName = store.state.user?.loginUser?.userName;
+  return userName ?? "未登录";
+});
+
 // 展示在菜单的路由数组
 const visibleRoutes = computed(() => {
+  const routes = router.getRoutes();
+  const user = store.state.user?.loginUser;
+  console.log("routes", routes);
+  console.log("user", user);
+
+  if (!user) {
+    return [];
+  }
+
   return routes.filter((item) => {
     if (item.meta?.hideInMenu) {
       return false;
     }
     // 根据权限过滤菜单
-    if (
-      !checkAccess(store.state.user.loginUser, item?.meta?.access as string)
-    ) {
-      return false;
-    }
-    return true;
+    return checkAccess(user, item.meta?.access as string);
   });
 });
 
@@ -75,27 +84,26 @@ router.afterEach((to) => {
 
 // 用户信息跳转方法
 const userInfo = () => {
-  console.log("user:", store.state.user.loginUser?.userName);
-  if (store.state.user.loginUser?.userName == "未登录") {
+  const userName = store.state.user?.loginUser?.userName;
+  if (userName === "未登录") {
     router.push("/user/login");
+  } else {
+    router.push("/user/info");
   }
-  router.push("/user/info");
 };
-
 // 菜单点击事件
 const doMenuClick = (key: string) => {
   router.push({
     path: key,
   });
 };
-
 // 模拟登录用户信息获取
-setTimeout(() => {
-  store.dispatch("user/getLoginUser", {
-    userName: "YZ管理员",
-    userRole: ACCESS_ENUM.ADMIN,
-  });
-}, 3000);
+// setTimeout(() => {
+//   store.dispatch("user/getLoginUser", {
+//     userName: "YZ管理员",
+//     userRole: ACCESS_ENUM.ADMIN,
+//   });
+// }, 3000);
 </script>
 
 <style scoped>

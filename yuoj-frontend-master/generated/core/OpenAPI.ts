@@ -21,7 +21,9 @@ export type OpenAPIConfig = {
 
 export const OpenAPI: OpenAPIConfig = {
     // BASE: 'http://59.110.52.247:8121',
+    // BASE: 'https://59.110.52.247:8121',
     BASE: 'http://localhost:8121',
+    // BASE: 'https://lyzok.top',
     VERSION: '1.0',
     WITH_CREDENTIALS: true,
     CREDENTIALS: 'include',
