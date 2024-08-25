@@ -17,9 +17,18 @@
           placeholder="请输入密码"
         />
       </a-form-item>
-      <a-form-item>
+      <a-form-item style="display: flex; justify-content: space-between">
         <a-button type="primary" html-type="submit" style="width: 120px">
           登录
+        </a-button>
+
+        <a-button
+          type="primary"
+          html-type="button"
+          style="width: 120px; margin-left: 16px"
+          @click="toRegister"
+        >
+          注册
         </a-button>
       </a-form-item>
     </a-form>
@@ -60,5 +69,11 @@ const handleSubmit = async () => {
   } else {
     message.error("登陆失败，" + res.message);
   }
+};
+const toRegister = async () => {
+  await router.push({
+    path: "/user/register",
+    replace: true,
+  });
 };
 </script>

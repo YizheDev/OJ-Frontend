@@ -3,7 +3,7 @@
     <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
         <a-space>
-          <img src="../assets/oj-logo.svg" class="logo" />
+          <img src="../assets/程序语言.svg" class="logo" />
           <h1>在线判题OJ系统</h1>
         </a-space>
       </a-layout-header>

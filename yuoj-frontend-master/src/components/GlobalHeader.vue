@@ -4,7 +4,7 @@
       <a-row align="middle" :wrap="false" class="header-content">
         <a-col flex="auto">
           <div class="title-bar">
-            <img class="logo" src="@/assets/oj-logo.svg" />
+            <img class="logo" src="@/assets/程序语言.svg" />
             <div class="title">
               CodeVirtuosoX--基于SpringBoot的OJ在线判题平台
             </div>
