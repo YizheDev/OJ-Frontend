@@ -4,7 +4,7 @@
       <a-layout-header class="header">
         <a-space>
           <img src="../assets/程序语言.svg" class="logo" />
-          <h1>在线判题OJ系统</h1>
+          <h1>CodeVirtuosoX--基于SpringBoot的OJ在线判题平台</h1>
         </a-space>
       </a-layout-header>
       <a-layout-content class="content">
