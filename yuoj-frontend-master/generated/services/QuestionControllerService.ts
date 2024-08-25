@@ -100,7 +100,7 @@ id?: number,
 ): CancelablePromise<BaseResponse_Question_> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/question/get',
+            url: '/api/question/get/vo',
             query: {
                 'id': id,
             },
@@ -147,7 +147,7 @@ questionQueryRequest: QuestionQueryRequest,
 ): CancelablePromise<BaseResponse_Page_Question_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/question/list/page',
+            url: '/api/question/list/page/vo',
             body: questionQueryRequest,
             errors: {
                 401: `Unauthorized`,

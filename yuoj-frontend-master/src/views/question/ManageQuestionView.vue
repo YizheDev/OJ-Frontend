@@ -43,14 +43,26 @@ const searchParams = ref({
 });
 
 const loadData = async () => {
-  const res = await QuestionControllerService.listQuestionByPageUsingPost(
-    searchParams.value
-  );
-  if (res.code === 0) {
-    dataList.value = res.data.records;
-    total.value = res.data.total;
-  } else {
-    message.error("加载失败，" + res.message);
+  try {
+    // 调用API并等待结果
+    const res = await QuestionControllerService.listQuestionByPageUsingPost(
+      searchParams.value
+    );
+
+    // 在这里添加调试输出
+    console.log("API response:", res);
+
+    if (res && res.code === 0) {
+      // 确保这里的数据是对象而不是字符串
+      dataList.value = res.data.records;
+      console.log("dataList.value", dataList.value);
+      total.value = res.data.total;
+    } else {
+      message.error("加载失败，" + res.message);
+    }
+  } catch (error) {
+    console.error("加载数据时出现错误:", error);
+    message.error("加载数据时出现错误");
   }
 };
 
@@ -102,10 +114,21 @@ const columns = [
   {
     title: "判题配置",
     dataIndex: "judgeConfig",
+    render: (_: any, record: any) => {
+      // 添加判断，确保 record 和 record.judgeConfig 存在
+      return record && record.judgeConfig
+        ? JSON.stringify(record.judgeConfig, null, 2)
+        : "无";
+    },
   },
   {
     title: "判题用例",
     dataIndex: "judgeCase",
+    render: (_: any, record: any) => {
+      return record && record.judgeCase
+        ? JSON.stringify(record.judgeCase, null, 2)
+        : "无";
+    },
   },
   {
     title: "用户id",
